@@ -1,0 +1,24 @@
+[package]
+
+name    = "fingertree"
+version = "0.0.0"
+authors = [ "Darin Morrison <darinmorrison+git@gmail.com>" ]
+
+[lib]
+name = "fingertree"
+path = "src/fingertree/lib.rs"
+
+[dependencies.algebra]
+git = "https://github.com/darinmorrison/algebra.rs"
+
+# [dev-dependencies.criterion]
+# git = "https://github.com/japaric/criterion.rs"
+
+# [dev-dependencies.criterion_macros]
+# git = "https://github.com/japaric/criterion.rs"
+
+[dev-dependencies.quickcheck]
+git = "https://github.com/BurntSushi/quickcheck"
+
+[dev-dependencies.quickcheck_macros]
+git = "https://github.com/BurntSushi/quickcheck"
