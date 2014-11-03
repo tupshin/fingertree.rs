@@ -70,3 +70,20 @@ pub enum FingerTree<V,A> {
         suffix:  Digit<A>,
     },
 }
+
+pub trait Measurable<V>
+    where
+        V:Monoid,
+{
+    fn measure(&self) -> V;
+}
+
+impl<V,A> Measurable<V> for Digit<A>
+    where
+        A:Measurable<V>,
+        V:Monoid,
+{
+    fn measure(&self) -> V {
+        self.fold_map(|d| { Measurable::measure(d) })
+    }
+}
