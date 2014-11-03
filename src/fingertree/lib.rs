@@ -15,7 +15,7 @@
 #[deriving(PartialEq)]
 #[deriving(PartialOrd)]
 #[deriving(Show)]
-enum Digit<A> {
+pub enum Digit<A> {
     One(A),
     Two(A,A),
     Three(A,A,A),
@@ -28,7 +28,7 @@ enum Digit<A> {
 #[deriving(PartialEq)]
 #[deriving(PartialOrd)]
 #[deriving(Show)]
-enum FingerTree<V,A> {
+pub enum FingerTree<V,A> {
     Empty,
     Single(A),
     Deep {
@@ -37,23 +37,4 @@ enum FingerTree<V,A> {
         tree:    Box<FingerTree<V,A>>,
         suffix:  Digit<A>,
     },
-}
-
-mod rope {
-    use super::{
-        Deep,
-        Digit,
-        Empty,
-        FingerTree,
-        Four,
-        One,
-        Single,
-        Three,
-        Two,
-    };
-
-    struct Offset(i32);
-    struct Chunk(Vec<u8>);
-    struct Body(FingerTree<Offset,Chunk>);
-    struct Rope(Body);
 }
