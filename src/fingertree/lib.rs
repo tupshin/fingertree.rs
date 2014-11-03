@@ -38,3 +38,22 @@ enum FingerTree<V,A> {
         suffix:  Digit<A>,
     },
 }
+
+mod rope {
+    use super::{
+        Deep,
+        Digit,
+        Empty,
+        FingerTree,
+        Four,
+        One,
+        Single,
+        Three,
+        Two,
+    };
+
+    struct Offset(i32);
+    struct Chunk(Vec<u8>);
+    struct Body(FingerTree<Offset,Chunk>);
+    struct Rope(Body);
+}
