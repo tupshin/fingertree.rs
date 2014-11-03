@@ -9,6 +9,13 @@
 #![allow(dead_code)]
 #![feature(struct_variant)]
 
+extern crate algebra;
+
+use algebra::{
+    M,
+    Monoid,
+};
+
 #[deriving(Clone)]
 #[deriving(Eq)]
 #[deriving(Ord)]
@@ -20,6 +27,31 @@ pub enum Digit<A> {
     Two(A,A),
     Three(A,A,A),
     Four(A,A,A,A),
+}
+
+impl<A> Digit<A> {
+    fn fold_map<M>(&self, f:|&A| -> M) -> M
+        where
+            M:Monoid,
+    {
+        match self {
+            &One(ref a) => {
+                f(a)
+            },
+            &Two(ref a, ref b) => {
+                let M(res) = M(f(a)) * M(f(b));
+                res
+            },
+            &Three(ref a, ref b, ref c) => {
+                let M(res) = M(f(a)) * M(f(b)) * M(f(c));
+                res
+            },
+            &Four(ref a, ref b, ref c, ref d) => {
+                let M(res) = M(f(a)) * M(f(b)) * M(f(c)) * M(f(d));
+                res
+            },
+        }
+    }
 }
 
 #[deriving(Clone)]
