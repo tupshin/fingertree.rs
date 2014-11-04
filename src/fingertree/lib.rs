@@ -87,3 +87,27 @@ impl<V,A> Measurable<V> for Digit<A>
         self.fold_map(|d| { Measurable::measure(d) })
     }
 }
+
+impl<V,A> Measurable<V> for FingerTree<V,A>
+    where
+        A:Measurable<V>,
+        V:Clone,
+        V:Monoid,
+{
+    fn measure(&self) -> V {
+        match self {
+            &Empty => {
+                Monoid::nil()
+            },
+            &Single(ref x) => {
+                x.measure()
+            },
+            &Deep {
+                measure:ref v,
+                ..
+            } => {
+                (*v).clone()
+            },
+        }
+    }
+}
