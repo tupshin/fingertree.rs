@@ -6,7 +6,7 @@ Finger Trees in Rust
 
 ## Documentation
 
-See the API documentation [here](http://darinmorrison.github.io/fingertree.rs/doc/fingertree/).
+See the API documentation [here](http://www.rust-ci.org/darinmorrison/fingertree.rs/doc/fingertree/).
 
 ## Requirements
 
