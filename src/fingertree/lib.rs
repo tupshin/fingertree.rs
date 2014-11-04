@@ -111,3 +111,16 @@ impl<V,A> Measurable<V> for FingerTree<V,A>
         }
     }
 }
+
+impl<V,A> FingerTree<V,A> {
+    pub fn is_empty(&self) -> bool {
+        match self {
+            &Empty => {
+                true
+            },
+            _ => {
+                false
+            }
+        }
+    }
+}
