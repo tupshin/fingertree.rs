@@ -6,7 +6,7 @@ authors = [ "Darin Morrison <darinmorrison+git@gmail.com>" ]
 
 [lib]
 name = "fingertree"
-path = "src/fingertree/lib.rs"
+path = "src/lib.rs"
 
 [dependencies.algebra]
 git = "https://github.com/darinmorrison/algebra.rs"
