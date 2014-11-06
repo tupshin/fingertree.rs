@@ -2,14 +2,14 @@
 
 name    = "fingertree"
 version = "0.0.0"
-authors = [ "Darin Morrison <darinmorrison+git@gmail.com>" ]
+authors = [ "Darin Morrison <darinmorrison+epsilonz@gmail.com>" ]
 
 [lib]
 name = "fingertree"
 path = "src/lib.rs"
 
 [dependencies.algebra]
-git = "https://github.com/darinmorrison/algebra.rs"
+git = "https://github.com/epsilonz/algebra.rs"
 
 # [dev-dependencies.criterion]
 # git = "https://github.com/japaric/criterion.rs"

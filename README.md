@@ -2,11 +2,11 @@
 
 Finger Trees in Rust
 
-[![build status](https://api.travis-ci.org/darinmorrison/fingertree.rs.svg?branch=master)](https://travis-ci.org/darinmorrison/fingertree.rs)
+[![build status](https://api.travis-ci.org/epsilonz/fingertree.rs.svg?branch=master)](https://travis-ci.org/epsilonz/fingertree.rs)
 
 ## Documentation
 
-See the API documentation [here](http://www.rust-ci.org/darinmorrison/fingertree.rs/doc/fingertree/).
+See the API documentation [here](http://www.rust-ci.org/epsilonz/fingertree.rs/doc/fingertree/).
 
 ## Requirements
 

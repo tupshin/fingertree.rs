@@ -2,7 +2,7 @@
 #![crate_type="lib"]
 
 #![license = "MIT"]
-#![doc(html_root_url = "http://www.rust-ci.org/darinmorrison/fingertree.rs/doc/fingertree/")]
+#![doc(html_root_url = "http://www.rust-ci.org/epsilonz/fingertree.rs/doc/fingertree/")]
 
 #![feature(struct_variant)]
 
