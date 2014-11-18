@@ -3,7 +3,7 @@
 //! Persistent Finger Trees.
 
 use algebra::{
-    M,
+    MgM,
     Monoid,
 };
 
@@ -30,15 +30,15 @@ impl<A> Digit<A> {
                 f(a)
             },
             &Two(ref a, ref b) => {
-                let M(res) = M(f(a)) * M(f(b));
+                let MgM(res) = MgM(f(a)) * MgM(f(b));
                 res
             },
             &Three(ref a, ref b, ref c) => {
-                let M(res) = M(f(a)) * M(f(b)) * M(f(c));
+                let MgM(res) = MgM(f(a)) * MgM(f(b)) * MgM(f(c));
                 res
             },
             &Four(ref a, ref b, ref c, ref d) => {
-                let M(res) = M(f(a)) * M(f(b)) * M(f(c)) * M(f(d));
+                let MgM(res) = MgM(f(a)) * MgM(f(b)) * MgM(f(c)) * MgM(f(d));
                 res
             },
         }
