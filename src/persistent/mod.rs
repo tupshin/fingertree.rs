@@ -7,6 +7,19 @@ use algebra::{
     Monoid,
 };
 
+pub use self::Digit::{
+    One,
+    Two,
+    Three,
+    Four,
+};
+
+pub use self::FingerTree::{
+    Deep,
+    Empty,
+    Single,
+};
+
 #[deriving(Clone)]
 #[deriving(Eq)]
 #[deriving(Ord)]
