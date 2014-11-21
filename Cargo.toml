@@ -1,8 +1,14 @@
 [package]
 
-name    = "fingertree"
+name = "fingertree"
 version = "0.0.0"
 authors = [ "Darin Morrison <darinmorrison+epsilonz@gmail.com>" ]
+description = "Finger Trees in Rust"
+documentation = "http://www.rust-ci.org/epsilonz/fingertree.rs/doc/fingertree/"
+keywords = ["data-structures", "persistent", "sequences", "trees"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/epsilonz/fingertree.rs"
 
 [lib]
 name = "fingertree"
