@@ -8,7 +8,7 @@ authors = [ "Darin Morrison <darinmorrison+epsilonz@gmail.com>" ]
 name = "fingertree"
 path = "src/lib.rs"
 
-[dependencies.algebra]
+[dependencies.epsilonz_algebra]
 git = "https://github.com/epsilonz/algebra.rs"
 
 # [dev-dependencies.criterion]

@@ -6,6 +6,6 @@
 
 //! This crate implements the Finger Tree data type.
 
-extern crate algebra;
+extern crate epsilonz_algebra;
 
 pub mod persistent;

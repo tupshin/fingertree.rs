@@ -2,7 +2,7 @@
 
 //! Persistent Finger Trees.
 
-use algebra::{
+use epsilonz_algebra::{
     MgM,
     Monoid,
 };
