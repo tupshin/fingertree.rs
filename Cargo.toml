@@ -16,15 +16,3 @@ path = "src/lib.rs"
 
 [dependencies.epsilonz_algebra]
 git = "https://github.com/epsilonz/algebra.rs"
-
-# [dev-dependencies.criterion]
-# git = "https://github.com/japaric/criterion.rs"
-
-# [dev-dependencies.criterion_macros]
-# git = "https://github.com/japaric/criterion.rs"
-
-[dev-dependencies.quickcheck]
-git = "https://github.com/BurntSushi/quickcheck"
-
-[dev-dependencies.quickcheck_macros]
-git = "https://github.com/BurntSushi/quickcheck"
