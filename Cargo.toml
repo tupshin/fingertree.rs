@@ -14,5 +14,6 @@ repository = "https://github.com/epsilonz/fingertree.rs"
 name = "fingertree"
 path = "src/lib.rs"
 
-[dependencies.epsilonz_algebra]
-git = "https://github.com/epsilonz/algebra.rs"
+[dependencies]
+
+epsilonz_algebra = "*"
