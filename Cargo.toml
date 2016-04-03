@@ -16,4 +16,4 @@ path = "src/lib.rs"
 
 [dependencies]
 
-epsilonz_algebra = "*"
+algebra = { git = "https://github.com/bjz/algebra.git" }
