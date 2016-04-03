@@ -15,5 +15,5 @@ name = "fingertree"
 path = "src/lib.rs"
 
 [dependencies]
-
 algebra = { git = "https://github.com/bjz/algebra.git" }
+missing_algebra = {git = "https://github.com/tupshin/missing_algebra-rs.git" }
