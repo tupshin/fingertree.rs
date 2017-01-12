@@ -7,8 +7,7 @@
 
 // license = "MIT"
 
-extern crate algebra;
-extern crate missing_algebra;
+#[macro_use]
+extern crate kinder;
 
 pub mod persistent;
-

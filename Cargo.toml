@@ -14,6 +14,8 @@ repository = "https://github.com/epsilonz/fingertree.rs"
 name = "fingertree"
 path = "src/lib.rs"
 
+# [[bin]] 
+# name="test"
+
 [dependencies]
-algebra = { git = "https://github.com/bjz/algebra.git" }
-missing_algebra = {git = "https://github.com/tupshin/missing_algebra-rs.git" }
+kinder = "*"
