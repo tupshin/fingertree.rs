@@ -48,7 +48,7 @@ impl<V, A> Add for FingerTree<V, A>
             }
             (Deep(d), Empty) | (Empty, Deep(d)) => FingerTree::Deep(d),
             (Deep(d), Single(s)) |
-            (Single(s), Deep(d)) => FingerTree::Deep(d.snoc(s)),
+            (Single(s), Deep(d)) => d.snoc(s),
             (Deep(d1), Deep(d2)) => FingerTree::Deep(d1 + d2),
         }
     }
@@ -102,7 +102,7 @@ impl<V, A> TreeLike<V, A> for FingerTree<V, A>
                 FingerTree::Deep(DeepTree::new(Digit::new(a1), FingerTree::Empty, Digit::new(a2)))
             }
             (Single(a), Deep(d)) |
-            (Deep(d), Single(a)) => FingerTree::Deep(d.snoc(a)),
+            (Deep(d), Single(a)) => d.snoc(a),
             (Deep(d1), Deep(d2)) => d1.append(d2).into(),
         }
     }
@@ -116,11 +116,11 @@ impl<V, A> TreeLike<V, A> for FingerTree<V, A>
     }
 
     /// Adds the given element to this tree as the first element.
-    fn cons(self, t: A) -> FingerTree<V, A> {
+    fn cons(self, first: A) -> FingerTree<V, A> {
         match self {
-            Empty => FingerTree::Single(t),
-            Single(a) => Digit::Two(t, a).to_tree(),
-            Deep(d) => d.cons(t),
+            Empty => FingerTree::Single(first),
+            Single(a) => Digit::Two(first, a).to_tree(),
+            Deep(d) => d.cons(first),
         }
     }
 
@@ -190,12 +190,12 @@ impl<V, A> TreeLike<V, A> for FingerTree<V, A>
         }
     }
 
-    /// Adds the given element to this tree as the first element
-    fn snoc(self, a: A) -> Self {
+    /// Adds the given element to this tree as the last element
+    fn snoc(self, last: A) -> FingerTree<V, A> {
         match self {
-            Empty => FingerTree::Single(a),
-            Single(s) => FingerTree::Single(a) + FingerTree::Single(s),
-            Deep(d) => FingerTree::Deep(d.snoc(a)),
+            Empty => FingerTree::Single(last),
+            Single(a) => Digit::Two(a,last).to_tree(),
+            Deep(d) => d.snoc(last),
         }
     }
 
@@ -331,5 +331,55 @@ impl<V, A> From<DeepTree<V, A>> for FingerTree<V, A>
 {
     fn from(d: DeepTree<V, A>) -> Self {
         FingerTree::Deep(d)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use persistent::fingertree::*;
+    #[test]
+    fn char_cons() {
+        let t: FingerTree<isize, char> = FingerTree::Empty;
+        let t = t.cons('n')
+            .cons('m')
+            .cons('l')
+            .cons('k')
+            .cons('j')
+            .cons('i')
+            .cons('h')
+            .cons('g')
+            .cons('f')
+            .cons('e')
+            .cons('d')
+            .cons('c')
+            .cons('b')
+            .cons('a');
+
+        let items: Vec<char> = t.into_iter().collect();
+        assert_eq!(items,
+                   vec!['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n']);
+    }
+
+    #[test]
+    fn char_snoc() {
+        let t: FingerTree<isize, char> = FingerTree::Empty;
+        let t = t.snoc('a')
+            .snoc('b')
+            .snoc('c')
+            .snoc('d')
+            .snoc('e')
+            .snoc('f')
+            .snoc('g')
+            .snoc('h')
+            .snoc('i')
+            .snoc('j')
+            .snoc('k')
+            .snoc('l')
+            .snoc('m')
+            .snoc('n');
+
+        let items: Vec<char> = t.into_iter().collect();
+        assert_eq!(items,
+                   vec!['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n']);
     }
 }

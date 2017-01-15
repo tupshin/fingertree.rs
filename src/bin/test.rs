@@ -31,55 +31,26 @@ fn main() {
     for item in t {
         println!("popped {:?}", item);
     }
-    //    println!("{:?}", t);
-    //    let (a, t) = t.head();
-    //    println!("popped {:?}", a);
-    //    let (a, t) = t.head();
-    //    println!("popped {:?}", a);
-    //    //   println!("popped {:?} leaving\n {:?}", a,t);
-    //    let (a, t) = t.head();
-    //    println!("popped {:?}", a);
-    //    let (a, t) = t.head();
-    //    println!(//    println!("{:?}", t);
-    //    let (a, t) = t.head();
-    //    println!("popped {:?}", a);
-    //    let (a, t) = t.head();
-    //    println!("popped {:?}", a);
-    //    //   println!("popped {:?} leaving\n {:?}", a,t);
-    //    let (a, t) = t.head();
-    //    println!("popped {:?}", a);
-    //    let (a, t) = t.head();
-    //    println!("popped {:?}", a);
-    //    let (a, t) = t.head();
-    //    println!("popped {:?}", a);
-    //    let (a, t) = t.head();
-    //    println!("popped {:?}", a);
-    //    let (a, t) = t.head();
-    //    println!("popped {:?}", a);
-    //    println!("{:?}", t);
-    //    let (a, t) = t.head();
-    //    println!("popped {:?}", a);
-    //    let (a, t) = t.head();
-    //    println!("popped {:?}", a);
-    //    let (a, t) = t.head();
-    //    println!("popped {:?}", a);
-    //    println!("{:?}", t);
+    println!();
 
-    //    let t = t.snoc('g')
-    //        .snoc('f')
-    //        .snoc('e')
-    //        .snoc('d')
-    //        .snoc('c')
-    //        .snoc('b')
-    //        .snoc('a');
-    //    println!("{:?}", to_string_pretty(&t).unwrap());
-    //    let (a, t) = t.head();
-    //    println!("popped {:?} from {}", a, to_string_pretty(&t).unwrap());
-    //    let (a, t) = t.head();
-    //    println!("popped {:?} from {}", a, to_string_pretty(&t).unwrap());
-    //    let (a, t) = t.head();
-    //    println!("popped {:?} from {}", a, to_string_pretty(&t).unwrap());
-    //    let (a, t) = t.head();
-    //    println!("popped {:?} from {}", a, to_string_pretty(&t).unwrap());
+    let t: FingerTree<isize, char> = FingerTree::Empty;
+    let t = t.snoc('a')
+        .snoc('b')
+        .snoc('c')
+        .snoc('d')
+        .snoc('e')
+        .snoc('f');
+        println!("{:?}",t);
+//        .snoc('g');
+//        .snoc('h')
+//        .snoc('i')
+//        .snoc('j')
+//        .snoc('k')
+//        .snoc('l')
+//        .snoc('m')
+//        .snoc('n');
+    for item in t {
+        println!("popped {:?}", item);
+    }
 
 }

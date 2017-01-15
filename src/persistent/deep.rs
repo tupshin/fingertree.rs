@@ -343,15 +343,6 @@ impl<V, A> TreeLike<V, A> for DeepTree<V, A>
             (Four(a, b, c, d), Four(e, f, g, h)) => unimplemented!(),
 
         }
-        //        case Four(_, d, e, f, g) =>
-        //          val prefix      = Two(m |+|(vb, m(d)), b, d)
-        //          val vTreePrefix = m |+|(m(e), m(f), m(g))
-        //          val treeNew     = tree.+:[Digit[V, A1]](Three(vTreePrefix, e, f, g))
-        //          Deep(vNew, prefix, treeNew, suffix)
-        //
-        //        case partial =>
-        //          Deep(vNew, b +: partial, tree, suffix)
-        //      }
     }
 
     /// Folds the tree to the left with the given function and the given initial element
@@ -474,9 +465,50 @@ impl<V, A> TreeLike<V, A> for DeepTree<V, A>
         unimplemented!()
     }
 
-    /// Adds the given element to this tree as the first element
-    fn snoc(self, t: A) -> Self {
-        unimplemented!()
+    /// Adds the given element to this tree as the last element
+    fn snoc(self, last: A) -> FingerTree<V, A> {
+        let measure = self.measure();
+        match (self.prefix, self.suffix) {
+            (Zero(_), _) | (_, Zero(_)) => panic!("impossible"),
+            (One(a), One(b)) => {
+                FingerTree::Deep(DeepTree {
+                    m: measure + last.measure(),
+                    prefix: Digit::One(a),
+                    middle: self.middle,
+                    suffix: Digit::Two(b,last),
+                })
+            }
+            (Two(a, b), One(c)) |
+            (One(a), Two(b, c)) => {
+                FingerTree::Deep(DeepTree {
+                    m: measure + last.measure(),
+                    prefix: Digit::Two(a,b),
+                    middle: self.middle,
+                    suffix: Digit::Two(c,last),
+                })
+            }
+            (Two(a, b), Two(c, d)) => {
+                FingerTree::Deep(DeepTree {
+                    m: measure + last.measure(),
+                    prefix: Digit::Two(a,b),
+                    middle: Box::new(self.middle.snoc(c)),
+                    suffix: Digit::Two(d,last),
+                })
+            }
+            (Two(a, b), Four(c, d, e, f)) |
+            (Four(a, b, c, d), Two(e, f)) => unimplemented!(),
+            (Three(a, b, c), One(d)) |
+            (One(a), Three(b, c, d)) => unimplemented!(),
+            (Four(a, b, c, d), One(e)) |
+            (One(a), Four(b, c, d, e)) => unimplemented!(),
+            (Three(a, b, c), Two(d, e)) |
+            (Two(a, b), Three(c, d, e)) => unimplemented!(),
+            (Three(a, b, c), Three(d, e, f)) => unimplemented!(),
+            (Three(a, b, c), Four(d, e, f, g)) |
+            (Four(a, b, c, d), Three(e, f, g)) => unimplemented!(),
+            (Four(a, b, c, d), Four(e, f, g, h)) => unimplemented!(),
+
+        }
     }
 
     /// splits this tree into a pair of subtrees at the point where the given predicate,

@@ -49,7 +49,7 @@ pub trait TreeLike<V, A>: IntoIterator + Measurable<V, A>
               F2: Fn(B, B) -> A;
 
     /// Adds the given element to this tree as the first element
-    fn snoc(self, t: A) -> Self;
+    fn snoc(self, t: A) -> FingerTree<V, A>;
 
     /// splits this tree into a pair of subtrees at the point where the given predicate,
     /// based on the measure, changes from false to true.

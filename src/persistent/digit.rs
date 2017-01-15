@@ -164,14 +164,8 @@ impl<V, A> TreeLike<V, A> for Digit<V, A>
     where A: Clone + Measurable<V, A> + Debug,
           V: Measure<A> + Debug
 {
-    fn len(&self) -> usize {
-        unimplemented!()
-    }
-    fn pretty<'b, D>(&'b self, allocator: &'b D) -> DocBuilder<'b, D>
-        where D: DocAllocator<'b>
-    {
-        unimplemented!()
-    }
+    fn len(&self) -> usize {unimplemented!()}
+    fn pretty<'b, D>(&'b self, allocator: &'b D) -> DocBuilder<'b, D> where D: DocAllocator<'b> {unimplemented!()}
 
     fn to_tree(self) -> FingerTree<V, A> {
         match self {
@@ -253,7 +247,7 @@ impl<V, A> TreeLike<V, A> for Digit<V, A>
     }
 
     /// Adds the given element to this tree as the first element
-    fn snoc(self, t: A) -> Self {
+    fn snoc(self, t: A) -> FingerTree<V, A> {
         unimplemented!()
     }
 
