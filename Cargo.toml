@@ -6,7 +6,7 @@ authors = [ "Darin Morrison <darinmorrison+epsilonz@gmail.com>" ]
 description = "Finger Trees in Rust"
 documentation = "http://www.rust-ci.org/epsilonz/fingertree.rs/doc/fingertree/"
 keywords = ["data-structures", "persistent", "sequences", "trees"]
-license = "Apache-2.0"
+license = "MIT OR Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/epsilonz/fingertree.rs"
 

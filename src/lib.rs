@@ -2,7 +2,6 @@
 #![crate_name="fingertree"]
 #![crate_type="lib"]
 
-#![license = "MIT OR Apache-2.0"]
 #![doc(html_root_url = "http://www.rust-ci.org/epsilonz/fingertree.rs/doc/fingertree/")]
 
 //! This crate implements the Finger Tree data type.
