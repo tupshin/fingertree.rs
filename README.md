@@ -2,7 +2,10 @@
 
 Finger Trees in Rust
 
-[![build status](https://api.travis-ci.org/epsilonz/fingertree.rs.svg?branch=master)](https://travis-ci.org/epsilonz/fingertree.rs)
+Originally based on https://github.com/freebroccolo/fingertree.rs and API inspired by 
+http://www.functionaljava.org/javadoc/4.6/functionaljava/fj/data/fingertrees/FingerTree.html
+
+[![build status](https://api.travis-ci.org/tupshin/fingertree.rs.svg?branch=master)](https://travis-ci.org/tupshin/fingertree.rs)
 
 ## Documentation
 
