@@ -1,14 +1,8 @@
 language: rust
-os:
-    - linux
-env:
-    global:
-        - secure: KBy2eOzXBUfhTMuPEpQ8KX95Su2ZY4Ki6Txm4/AuGvFe50QB/ZEdBcw3vgn6Ik9UjVmHUZ5y3wmQZOIh22+T3pohfkT3CPYqmwcnTbN2M6zElt9/5k3rlamGDyeerDueSJYIyS28IMEXXtSLb9yyUqVUFngX3KHR0AMJ2H6ftjY=
-script:
-    - cargo build -v
-    - cargo test  -v
-    - cargo doc   -v
-after_script:
-    - cp -R target/doc doc
-    - curl http://www.rust-ci.org/artifacts/put?t=$RUSTCI_TOKEN | sh
-    - rm -r doc
+rust:
+  - stable
+  - beta
+  - nightly
+matrix:
+  allow_failures:
+    - rust: nightly
