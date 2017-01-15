@@ -14,7 +14,6 @@ pub trait Measurable<V, A>
 }
 
 impl Measure<isize> for isize {}
-impl Measure<char> for isize {}
 impl Measurable<isize, isize> for isize {
     fn measure(&self) -> isize {
         self.clone()
@@ -27,7 +26,21 @@ impl Measurable<isize, char> for char {
     }
 }
 
+impl Measure<char> for isize {}
 impl Measurable<isize, char> for isize {
+    fn measure(&self) -> isize {
+        self.clone()
+    }
+}
+
+impl Measurable<isize, i32> for i32 {
+    fn measure(&self) -> isize {
+        1
+    }
+}
+
+impl Measure<i32> for isize {}
+impl Measurable<isize, i32> for isize {
     fn measure(&self) -> isize {
         self.clone()
     }

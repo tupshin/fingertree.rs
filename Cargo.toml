@@ -23,3 +23,8 @@ serde_json = "0.8"
 serde_derive = "0.8"
 serde = "0.8"
 pretty="0.2"
+
+[profile.test]
+opt-level = 2
+debug = true
+panic = 'unwind'

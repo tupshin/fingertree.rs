@@ -6,6 +6,7 @@ use std::ops::{Deref, Add};
 use std::fmt::{Debug, Display};
 use std::fmt;
 use pretty::{BoxAllocator, DocAllocator, DocBuilder};
+use std::ops::Range;
 
 #[derive(Ord,PartialOrd,PartialEq,Eq,Debug,Clone,Serialize)]
 pub enum FingerTree<V, A>
@@ -194,7 +195,7 @@ impl<V, A> TreeLike<V, A> for FingerTree<V, A>
     fn snoc(self, last: A) -> FingerTree<V, A> {
         match self {
             Empty => FingerTree::Single(last),
-            Single(a) => Digit::Two(a,last).to_tree(),
+            Single(a) => Digit::Two(a, last).to_tree(),
             Deep(d) => d.snoc(last),
         }
     }
@@ -359,6 +360,73 @@ mod tests {
         assert_eq!(items,
                    vec!['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n']);
     }
+
+    #[test]
+    fn i32_cons() {
+        let t: FingerTree<isize, i32> = FingerTree::Empty;
+        let t = t.cons(14)
+            .cons(13)
+            .cons(12)
+            .cons(11)
+            .cons(10)
+            .cons(9)
+            .cons(8)
+            .cons(7)
+            .cons(6)
+            .cons(5)
+            .cons(4)
+            .cons(3)
+            .cons(2)
+            .cons(1);
+
+        let items: Vec<i32> = t.into_iter().collect();
+        assert_eq!(items, vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
+    }
+
+    #[test]
+    fn i32_snoc() {
+        let t: FingerTree<isize, i32> = FingerTree::Empty;
+        let t = t.cons(1)
+            .snoc(2)
+            .snoc(3)
+            .snoc(4)
+            .snoc(5)
+            .snoc(6)
+            .snoc(7)
+            .snoc(8)
+            .snoc(9)
+            .snoc(10)
+            .snoc(11)
+            .snoc(12)
+            .snoc(13)
+            .snoc(14);
+
+        let items: Vec<i32> = t.into_iter().collect();
+        assert_eq!(items, vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
+    }
+
+    #[test]
+    fn i32_medium_snoc() {
+        let mut t: FingerTree<isize, i32> = FingerTree::Empty;
+        let snoc_items: Vec<i32> = (1..1000).collect();
+        for i in snoc_items.clone() {
+            t = t.snoc(i);
+        }
+        let popped_items: Vec<i32> = t.into_iter().collect();
+        assert_eq!(snoc_items, popped_items)
+    }
+
+    #[test]
+    fn i32_big_snoc() {
+        let mut t: FingerTree<isize, i32> = FingerTree::Empty;
+        let snoc_items: Vec<i32> = (1..10000).collect();
+        for i in snoc_items.clone() {
+            t = t.snoc(i);
+        }
+        let popped_items: Vec<i32> = t.into_iter().collect();
+        assert_eq!(snoc_items, popped_items)
+    }
+
 
     #[test]
     fn char_snoc() {
