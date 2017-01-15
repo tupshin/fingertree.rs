@@ -14,8 +14,12 @@ repository = "https://github.com/epsilonz/fingertree.rs"
 name = "fingertree"
 path = "src/lib.rs"
 
-# [[bin]] 
-# name="test"
+[[bin]] 
+name="test"
 
 [dependencies]
 kinder = "*"
+serde_json = "0.8"
+serde_derive = "0.8"
+serde = "0.8"
+pretty="0.2"

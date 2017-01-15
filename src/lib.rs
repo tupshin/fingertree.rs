@@ -1,3 +1,4 @@
+#![feature(proc_macro)]
 #![crate_name="fingertree"]
 #![crate_type="lib"]
 
@@ -10,4 +11,14 @@
 #[macro_use]
 extern crate kinder;
 
+
+#[macro_use]
+extern crate serde_derive;
+extern crate serde;
+
+extern crate serde_json;
+extern crate pretty;
+
 pub mod persistent;
+
+pub use persistent::*;

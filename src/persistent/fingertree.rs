@@ -3,34 +3,48 @@ use kinder::lift::Monoid;
 use std::ops::Mul;
 use self::FingerTree::*;
 use std::ops::{Deref, Add};
+use std::fmt::{Debug, Display};
+use std::fmt;
+use pretty::{BoxAllocator, DocAllocator, DocBuilder};
 
-#[derive(Ord,PartialOrd,PartialEq,Eq,Debug,Clone)]
+#[derive(Ord,PartialOrd,PartialEq,Eq,Debug,Clone,Serialize)]
 pub enum FingerTree<V, A>
-    where A: Clone
+    where A: Clone + Debug + Measurable<V, A>,
+          V: Measure<A> + Debug
 {
     Empty,
     Single(A),
     Deep(DeepTree<V, A>),
 }
 
-pub trait Measure<A>
-    : Monoid + Default + Clone + Mul<Output = Self> + Add<Output = Self> + Measurable<Self, A>
-    where A: Clone + Measurable<Self, A>
-{
-}
+
+// impl<V: Debug, A: Debug + Clone> Display for FingerTree<V, A>
+//    where A: Clone + Debug + Measurable<V, A>,
+//          V: Measure<A> + Debug
+//
+//    fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+//        match self {
+//            &Empty => write!(fmt, "Empty Tree"),
+//            &Single(ref a) => write!(fmt, "Single Node Tree: {:?}", a),
+//            &Deep(ref d) => write!(fmt, "{}\n", d),
+//        }
+//    }
+//
+//
 
 impl<V, A> Add for FingerTree<V, A>
-    where A: Clone + Measurable<V, A>,
-          V: Measure<A>
+    where A: Clone + Measurable<V, A> + Debug,
+          V: Measure<A> + Debug
 {
     type Output = FingerTree<V, A>;
+
     fn add(self, other: Self) -> FingerTree<V, A> {
         match (self, other) {
             (Empty, Empty) => FingerTree::Empty,
             (Single(s), Empty) |
             (Empty, Single(s)) => FingerTree::Single(s),
             (Single(s1), Single(s2)) => {
-                DeepTree::new(Digit::new(s1), FingerTree::Empty, Digit::new(s2))
+                FingerTree::Deep(DeepTree::new(Digit::new(s1), FingerTree::Empty, Digit::new(s2)))
             }
             (Deep(d), Empty) | (Empty, Deep(d)) => FingerTree::Deep(d),
             (Deep(d), Single(s)) |
@@ -41,24 +55,51 @@ impl<V, A> Add for FingerTree<V, A>
 }
 
 impl<V, A> From<A> for FingerTree<V, A>
-    where A: Clone
+    where A: Clone + Debug + Measurable<V, A>,
+          V: Measure<A> + Debug
 {
     fn from(a: A) -> Self {
         FingerTree::Single(a)
     }
 }
 
-impl<V, A> TreeLike<V, A> for FingerTree<V, A>
-    where V: Measure<A>,
+// fn v_to_size(v:V) -> usize {
+// 	v
+//
 
-          A: Clone + Measurable<V, A>
+impl<V, A> TreeLike<V, A> for FingerTree<V, A>
+    where V: Measure<A> + Debug,
+          A: Clone + Measurable<V, A> + Debug
 {
+    fn pretty<'b, D>(&'b self, allocator: &'b D) -> DocBuilder<'b, D>
+        where D: DocAllocator<'b>
+    {
+        let forest = self;
+        //        let mut doc = allocator.nil();
+        //        let mut i = 0;
+        //        let k = forest.len() - 1;
+        //        loop {
+        //            if i < k {
+        //                doc = doc.append(forest.lookup( &Fn(V) -> usize,i)
+        //                    .pretty(allocator)
+        //                    .append(allocator.text(","))
+        //                    .append(allocator.newline()));
+        //            } else if i == k {
+        //                doc = doc.append(forest[i].pretty(allocator));
+        //                break;
+        //            }
+        //            i += 1;
+        //        }
+        //        doc
+        unimplemented!()
+    }
+
     /// Appends one finger tree to another
     fn append(self, other: Self) -> Self {
         match (self, other) {
             (Empty, t) | (t, Empty) => t,
             (Single(a1), Single(a2)) => {
-                DeepTree::new(Digit::new(a1), FingerTree::Empty, Digit::new(a2))
+                FingerTree::Deep(DeepTree::new(Digit::new(a1), FingerTree::Empty, Digit::new(a2)))
             }
             (Single(a), Deep(d)) |
             (Deep(d), Single(a)) => FingerTree::Deep(d.snoc(a)),
@@ -66,15 +107,21 @@ impl<V, A> TreeLike<V, A> for FingerTree<V, A>
         }
     }
 
-    /// Adds the given element to this tree as the first element.
-    fn cons(self, a: A) -> Self {
-        match self {
-            Empty => FingerTree::Single(a),
-            Single(s) => FingerTree::Single(s) + FingerTree::Single(a),
-            Deep(d) => FingerTree::Deep(d.cons(a)),
+    fn len(&self) -> usize {
+        match *self {
+            Empty => 0,
+            Single(_) => 1,
+            Deep(ref d) => d.len(),
         }
+    }
 
-
+    /// Adds the given element to this tree as the first element.
+    fn cons(self, t: A) -> FingerTree<V, A> {
+        match self {
+            Empty => FingerTree::Single(t),
+            Single(a) => Digit::Two(t, a).to_tree(),
+            Deep(d) => d.cons(t),
+        }
     }
 
     /// Folds the tree to the left with the given function and the given initial element
@@ -105,21 +152,17 @@ impl<V, A> TreeLike<V, A> for FingerTree<V, A>
     fn head(self) -> (Option<A>, Self) {
         match self {
             Empty => (None, self),
-            Single(s) => (Some(s.clone()), FingerTree::Empty),
-            Deep(d) => {
-                let (head, tail) = d.head();
-                (head, FingerTree::Deep(tail))
-            }
+            Single(s) => (Some(s), FingerTree::Empty),
+            Deep(d) => d.head(),
 
         }
     }
 
-    fn lookup(self, o: &Fn(V) -> usize, i: usize) -> (usize, Option<A>) {
-        match self {
+    fn lookup(&self, o: &Fn(V) -> usize, i: usize) -> (usize, Option<A>) {
+        match *self {
             Empty => (0, None),
-            Single(s) => (i, Some(s)),
-            Deep(d) => d.lookup(o, i),
-
+            Single(ref s) => (i, Some(s.clone())),
+            Deep(ref d) => d.lookup(o, i),
         }
     }
 
@@ -173,12 +216,16 @@ impl<V, A> TreeLike<V, A> for FingerTree<V, A>
             }
         }
     }
+
+    fn to_tree(self) -> FingerTree<V, A> {
+        self
+    }
 }
 
 impl<V, A> IntoIterator for FingerTree<V, A>
-    where V: Measure<A>,
+    where V: Measure<A> + Debug,
 
-          A: Clone + Measurable<V, A>
+          A: Clone + Measurable<V, A> + Debug
 {
     type Item = A;
     type IntoIter = IntoIter<V, A>;
@@ -187,20 +234,30 @@ impl<V, A> IntoIterator for FingerTree<V, A>
     }
 }
 
+#[derive(Debug)]
 pub struct IntoIter<V, A>(FingerTree<V, A>)
-    where A: Clone + Measurable<V, A>,
-          V: Measure<A>;
+    where A: Clone + Measurable<V, A> + Debug,
+          V: Measure<A> + Debug;
 
 impl<V, A> Iterator for IntoIter<V, A>
-    where A: Clone + Measurable<V, A>,
-          V: Measure<A>
+    where A: Clone + Measurable<V, A> + Debug,
+          V: Measure<A> + Debug
 {
     type Item = A;
     fn next(&mut self) -> Option<A> {
+        match self.0.clone() {
+            Empty => None,
+            Single(a) => {
+                self.0 = FingerTree::Empty;
+                Some(a.clone())
+            }
+            Deep(d) => {
+                let (head, tail) = d.head();
+                self.0 = tail;
+                head
+            }
+        }
         // let z = self.0;
-        let (head, tail) = self.0.clone().head(); //FIXME is this efficient??
-        self.0 = tail.clone();
-        head
     }
 }
 
@@ -223,7 +280,8 @@ impl<V, A> Iterator for IntoIter<V, A>
 //
 
 impl<V, A> PossiblyEmpty for FingerTree<V, A>
-    where A: Clone
+    where A: Clone + Measurable<V, A> + Debug,
+          V: Measure<A> + Debug
 {
     fn is_empty(&self) -> bool {
         match *self {
@@ -236,7 +294,10 @@ impl<V, A> PossiblyEmpty for FingerTree<V, A>
 
 
 
-impl<'a, V, A: 'a + Clone> FingerTree<V, A> {
+impl<'a, V, A: 'a + Clone> FingerTree<V, A>
+    where V: Measure<A> + Debug,
+          A: Measurable<V, A> + Debug
+{
     pub fn is_empty(&self) -> bool {
         match *self {
             FingerTree::Empty => true,
@@ -265,7 +326,8 @@ impl<'a, A: 'a> PossiblyEmpty for Vec<A> {
 
 
 impl<V, A> From<DeepTree<V, A>> for FingerTree<V, A>
-    where A: Clone
+    where A: Clone + Debug + Measurable<V, A>,
+          V: Measure<A> + Debug
 {
     fn from(d: DeepTree<V, A>) -> Self {
         FingerTree::Deep(d)
